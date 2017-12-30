@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.user.cs496_project2_sjh.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
+        <EditText
+            android:id="@+id/editSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="검색" />
+
+        <ListView
+            android:id="@+id/listview1"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:layout_weight="1"></ListView>
+<!--
+        <Button
+            android:id="@+id/diabutton"
+            android:text="추가 Diaglog"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="right|center_vertical" />
+
+        <Button
+            android:id="@+id/diabutton2"
+            android:text="추가 activity"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="left|center_vertical"
+            android:onClick="Button_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2"
+            app:layout_constraintVertical_bias="0.382"/>-->
+    </LinearLayout>
+
+
+</LinearLayout>
