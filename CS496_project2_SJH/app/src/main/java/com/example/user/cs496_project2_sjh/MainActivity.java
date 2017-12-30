@@ -1,5 +1,8 @@
 package com.example.user.cs496_project2_sjh;
 
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -48,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
         btn_third.setOnClickListener(movePageListener);
         btn_third.setTag(2);
 
+        Button btn_fourth = (Button)findViewById(R.id.btn_fourth);
+    }
+    public void abc(View view){
+        Intent intent = new Intent(this, facebook.class);
+        startActivity(intent);
     }
 
     private class pagerAdapter extends FragmentStatePagerAdapter
@@ -78,5 +86,7 @@ public class MainActivity extends AppCompatActivity {
             return 3;
         }
     }
+
+
 }
 

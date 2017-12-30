@@ -1,5 +1,6 @@
 package com.example.user.cs496_project2_sjh;
 
+import android.content.pm.PackageInfo;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,5 +29,6 @@ public class Fragment_contact extends Fragment {
         View myfragmentView = inflater.inflate(R.layout.fragment_contact,container,false);
         return myfragmentView;
     }
+
 
 }

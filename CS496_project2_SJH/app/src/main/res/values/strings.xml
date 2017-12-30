@@ -1,3 +1,6 @@
 <resources>
+
+    <string name="facebook_app_id">127598031368701</string>
+    <string name="facebook_login_protocol_scheme">fb127598031368701</string>
     <string name="app_name">CS496_project2_SJH</string>
 </resources>
