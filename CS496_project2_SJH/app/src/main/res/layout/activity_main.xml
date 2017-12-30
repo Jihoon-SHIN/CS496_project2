@@ -1,51 +1,50 @@
-<?xml version="1.0"
-    encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+<?xml version="1.0" encoding="utf-8"?>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment_container"
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_below="@+id/ll"></android.support.v4.view.ViewPager>
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/linearLayout">
+        android:background="#ffffff">
 
         <Button
-            android:id="@+id/bt_tab1"
-            style="?android:buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_first"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="CONTACT"
-            android:textColor="@color/colorPrimaryDark" />
+            android:text="Contacts"
+            android:background="#ffffff"
+            />
 
         <Button
+            android:id="@+id/btn_second"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/bt_tab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="gallery"
-            android:textColor="@color/colorPrimaryDark"
-            style="?android:buttonBarButtonStyle"/>
+            android:background="#ffffff"
+            android:text="Gallery" />
 
         <Button
+            android:id="@+id/btn_third"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/bt_tab3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Free"
-            android:textColor="@color/colorPrimaryDark"
-            style="?android:buttonBarButtonStyle"/>
+            android:background="#ffffff"
+            android:text="Memo" />
+
     </LinearLayout>
+
+
 </RelativeLayout>

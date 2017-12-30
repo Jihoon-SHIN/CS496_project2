@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListViewAdapter extends BaseAdapter {
     private ArrayList<listviewitem> listViewItemList = new ArrayList<listviewitem>();
@@ -45,7 +44,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         if(convertView==null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.frament_contact, parent, false);
+            convertView = inflater.inflate(R.layout.fragment_contact, parent, false);
         }
         ImageView iconImageView = (ImageView)convertView.findViewById(R.id.imageview1);
         TextView textView1 = (TextView)convertView.findViewById(R.id.textview1);
