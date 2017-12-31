@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn_fourth = (Button)findViewById(R.id.btn_fourth);
     }
-    public void abc(View view){
+/*    public void abc(View view){
         Intent intent = new Intent(this, facebook.class);
         startActivity(intent);
-    }
+    }*/
 
     private class pagerAdapter extends FragmentStatePagerAdapter
     {

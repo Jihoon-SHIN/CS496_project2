@@ -43,6 +43,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:text="test DB"
+            android:id="@+id/testbutton"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:text="mainactivity"
+            android:id="@+id/mainact"
+            android:onClick="mainact"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id = "@+id/dbdb"
+            android:text="DBDB"
+            android:textSize="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
     </LinearLayout>
 
 </RelativeLayout>
