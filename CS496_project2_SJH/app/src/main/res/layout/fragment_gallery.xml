@@ -1,15 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF0000">
+    android:orientation="vertical"
+    >
 
-    <TextView
+    <!--<ImageView-->
+    <!--android:id="@+id/LargeImage"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:background="#000000"-->
+    <!--app:srcCompat="@drawable/gallery_image_02" />-->
+
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:text="Second_Page" />
+        android:layout_height="200dp"
+        android:background="#000000"/>
 
-</RelativeLayout>
+    <GridView
+
+        android:id="@+id/gridViewImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="5dp"
+        android:numColumns="3"
+        android:paddingBottom="5dp"
+        android:paddingTop="0dp"
+        android:verticalSpacing="5dp"></GridView>
+
+    ﻿
+</LinearLayout>
 
