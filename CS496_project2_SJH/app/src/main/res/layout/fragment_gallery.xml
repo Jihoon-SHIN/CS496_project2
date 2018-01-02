@@ -12,27 +12,11 @@
     <!--android:background="#000000"-->
     <!--app:srcCompat="@drawable/gallery_image_02" />-->
 
-    <EditText
-        android:id="@+id/base64"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
-
     <Button
         android:id="@+id/getPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="getPhoto" />
-
-    <EditText
-        android:id="@+id/base64_2"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="UploadPhoto" />
 
     <Button
         android:id="@+id/getPhoto_2"
@@ -41,11 +25,6 @@
         android:text="getPhoto_2" />
 
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#000000"/>
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"

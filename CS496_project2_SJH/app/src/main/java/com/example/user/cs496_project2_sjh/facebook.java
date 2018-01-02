@@ -133,48 +133,51 @@ public class facebook extends AppCompatActivity {
         login_text = (EditText)findViewById(R.id.login_id);
         password_text = (EditText)findViewById(R.id.login_password);
 
-        String MD5 = "";
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password_text.getText().toString().getBytes());
-            byte byteData[] = md.digest();
-            StringBuffer sb = new StringBuffer();
-            for(int i = 0 ; i < byteData.length ; i++){
-                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
-            }
-            MD5 = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            MD5 = null;
-        }
-        String temp = null;
-        try {
-            temp = new connecting_js(jsonArray, "/members", "/", login_text.getText().toString(), "GET").execute("").get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        if(temp==null){
-            Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-            toast.show();
-        }else if(temp!=null){
-            JSONObject jsonObject = new JSONObject(temp);
-/*            Log.i("jjj", jsonObject.toString());
-            Log.i("md5",MD5);*/
-            if(MD5.equals(jsonObject.getString("password"))){
-                startActivity(intent);
-                Toast toast = Toast.makeText(this, "로그인 성공.", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                toast.show();
-            }else{
-                Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                toast.show();
-            }
-        }
-        Log.i("string", temp);
+        startActivity(intent);
+
+//
+//        String MD5 = "";
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("MD5");
+//            md.update(password_text.getText().toString().getBytes());
+//            byte byteData[] = md.digest();
+//            StringBuffer sb = new StringBuffer();
+//            for(int i = 0 ; i < byteData.length ; i++){
+//                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+//            }
+//            MD5 = sb.toString();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//            MD5 = null;
+//        }
+//        String temp = null;
+//        try {
+//            temp = new connecting_js(jsonArray, "/members", "/", login_text.getText().toString(), "GET").execute("").get();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+//        if(temp==null){
+//            Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+//            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+//            toast.show();
+//        }else if(temp!=null){
+//            JSONObject jsonObject = new JSONObject(temp);
+///*            Log.i("jjj", jsonObject.toString());
+//            Log.i("md5",MD5);*/
+//            if(MD5.equals(jsonObject.getString("password"))){
+//                startActivity(intent);
+//                Toast toast = Toast.makeText(this, "로그인 성공.", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+//                toast.show();
+//            }else{
+//                Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+//                toast.show();
+//            }
+//        }
+//        Log.i("string", temp);
     }
 
     private void getData(JSONObject object){

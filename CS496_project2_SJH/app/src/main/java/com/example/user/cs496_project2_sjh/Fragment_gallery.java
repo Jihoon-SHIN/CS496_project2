@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
@@ -70,12 +71,21 @@ public class Fragment_gallery extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-//          LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_gallery, container, false);
+        AddArray addArray = new AddArray();
+        final ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray());
+        View myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
+        final Handler handler = new Handler();
+        GridView gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
 
-//        GridView gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
-//        SecondTab_ImageGridAdapter imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
-//        gridViewImages.setAdapter(imageGridAdapter);
 
+
+        SecondTab_ImageGridAdapter imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
+        gridViewImages.setAdapter(imageGridAdapter);
+
+
+
+        //        SecondTab_ImageGridAdapter imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
+//
 //        ImageView label;
 //        Bitmap bmp = null;
 //
@@ -94,34 +104,32 @@ public class Fragment_gallery extends Fragment {
 //            e.printStackTrace();
 //        }
 
-        final Handler handler = new Handler();
-        final View myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
 
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {    // 오래 거릴 작업을 구현한다
-                // TODO Auto-generated method stub
-                try{
-                    // 걍 외우는게 좋다 -_-;
-                    final ImageView iv = (ImageView)myfragmentView.findViewById(R.id.imageView2);
-                    URL url = new URL("http://myhswm.org/images/sized/images/animals/August-256x256.jpg");
-                    InputStream is = url.openStream();
-                    final Bitmap bm = BitmapFactory.decodeStream(is);
-                    handler.post(new Runnable() {
-
-                        @Override
-                        public void run() {  // 화면에 그려줄 작업
-                            iv.setImageBitmap(bm);
-                        }
-                    });
-                    iv.setImageBitmap(bm); //비트맵 객체로 보여주기
-                } catch(Exception e){
-
-                }
-
-            }
-        });
+//
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {    // 오래 거릴 작업을 구현한다
+//                // TODO Auto-generated method stub
+//                try{
+//                    // 걍 외우는게 좋다 -_-;
+//                    final ImageView iv = (ImageView)myfragmentView.findViewById(R.id.imageView2);
+//                    URL url = new URL("http://myhswm.org/images/sized/images/animals/August-256x256.jpg");
+//                    InputStream is = url.openStream();
+//                    final Bitmap bm = BitmapFactory.decodeStream(is);
+//                    handler.post(new Runnable() {
+//
+//                        @Override
+//                        public void run() {  // 화면에 그려줄 작업
+//                            iv.setImageBitmap(bm);
+//                        }
+//                    });
+//                    iv.setImageBitmap(bm); //비트맵 객체로 보여주기
+//                } catch(Exception e){
+//
+//                }
+//
+//            }
+//        });
 
 //        t.start();
 
@@ -129,13 +137,9 @@ public class Fragment_gallery extends Fragment {
         buttonGetPhoto = (Button)myfragmentView.findViewById((R.id.getPhoto));
         buttonGetPhoto2 = (Button)myfragmentView.findViewById((R.id.getPhoto_2));
 
-        mainPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView2);
         updatedPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView3);
 
         Ion.getDefault(getContext()).configure().setLogging("ion-sample", Log.DEBUG);
-
-        editText = (EditText)myfragmentView.findViewById(R.id.base64);
-        editText2 = (EditText)myfragmentView.findViewById(R.id.base64_2);
 
 
 
@@ -167,10 +171,11 @@ public class Fragment_gallery extends Fragment {
                     //editText2.setText(object.getString("img"));
 
                     byte[] imageBytes = Base64.decode(object.getString("img"), Base64.DEFAULT);
+//                    byte[] imageBytes = Base64.decode(imageIDs.get(0), Base64.DEFAULT);
+
                     Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
                     updatedPhoto.setImageBitmap(decodedImage);
-
-
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -222,21 +227,6 @@ public class Fragment_gallery extends Fragment {
                     updatedPhoto.setImageBitmap(decodedImage);
 
                     //"testImage" --> "test"로 수정하기
-
-
-
-                    //  Log.d("test",var);
-
-
-//                        new connecting_jh(jsonArray2,"/image","","","GET").execute("");
-//                        Toast.makeText(getContext(),jsonObject1.toString(), Toast.LENGTH_LONG).show();
-
-
-
-
-
-                    //Toast.makeText(getContext(),encodeImage(RealPathUtil.getRealPathFromURI_API19(getContext(), data.getData())), Toast.LENGTH_LONG).show();
-
 
                     //Toast.makeText(getContext(),data.getData().getPath(), Toast.LENGTH_LONG).show();
 
