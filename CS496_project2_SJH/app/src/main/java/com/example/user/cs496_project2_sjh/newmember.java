@@ -15,6 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class newmember extends AppCompatActivity {
     private EditText name;
     private EditText phone;
@@ -41,23 +44,42 @@ public class newmember extends AppCompatActivity {
         EditText phone = (EditText)findViewById(R.id.phonenumber);
 
         JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.accumulate("member1",login_text.getText().toString());
-            jsonObject.accumulate("password",password_text.getText().toString());
-            jsonObject.accumulate("name",name.getText().toString());
-            jsonObject.accumulate("phone",phone.getText().toString());
-            JSONArray jsonArray = new JSONArray();
-            jsonArray.put(jsonObject);
-            new connecting_js(jsonArray,"/members","","","POST").execute("http:13.124.40.52:9200/api/members/member");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        startActivity(intent);
-        Toast toast = Toast.makeText(this, "추가하였습니다.", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-        toast.show();
-    }
+        String MD5 = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password_text.toString().getBytes());
+            byte byteData[] = md.digest();
+            StringBuffer sb = new StringBuffer();
+            for(int i = 0 ; i < byteData.length ; i++){
+                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+            }
+            MD5 = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            MD5 = null;
+        }
+        if(password_text.getText().toString().equals(password_text2.getText().toString())) {
+            try {
+                jsonObject.accumulate("member1", login_text.getText().toString());
+                jsonObject.accumulate("password", MD5);
+                jsonObject.accumulate("name", name.getText().toString());
+                jsonObject.accumulate("phone", phone.getText().toString());
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(jsonObject);
+                new connecting_js(jsonArray, "/members", "", "", "POST").execute("http:13.124.40.52:9200/api/members/member");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            startActivity(intent);
+            Toast toast = Toast.makeText(this, "추가하였습니다.", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+            toast.show();
+        }else{
+            Toast toast = Toast.makeText(this, "패스워드를 확인하세요.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        }
     public void canclick(View view){
         Intent intent = new Intent(this, facebook.class);
         startActivity(intent);

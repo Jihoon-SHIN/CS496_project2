@@ -44,52 +44,45 @@ public class connecting_js  extends AsyncTask<String, String,String>{
     }
     @Override
     protected String doInBackground(String... strings) {
-        try {
+//        try {
             //JSON Object를 만들고 key value형식으로 값을 저장해준다.
-            JSONObject jsonObject1 = new JSONObject();
-            jsonObject1.accumulate("member1","andoridTest");
-            /*jsonObject.accumulate("member1","andoridTest");
-            jsonObject.accumulate("password","496496cs");
-            jsonObject.accumulate("name","cscscs");
-            jsonObject.accumulate("phone","01049649649");
-            */
-//            jsonObject = (JSONObject) jsonArray.get(0);
             HttpURLConnection con = null;
             BufferedReader reader = null;
             try{
-                //URL url = new URL("http://13.124.40.52:20000");
-                //URL url = new URL(strings[0]);
                 url1 = url1+members+input_string+what;
                 URL url = new URL(url1);
                 //연결을 함
                 con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod(how_to); // POST방식으로 보냄
-                con.setRequestProperty("Cache-Control", "no-cache"); //캐시설정
-                con.setRequestProperty("Content-Type","application/json"); //application json 형식으로 전송
-                con.setRequestProperty("Accept","application/json"); //서버에 response 데이터를 json로 받음
-                con.setDoOutput(true); //Outstream으로 post데이터를 넘겨주겠다는 의미
-                con.setDoInput(true); //Inputstream으로 서버로부터 응답을 받겠다는 의미
-                //con.connect();
-                //서버로 보내기위해서 스트림 만듬
-                OutputStream outStream = con.getOutputStream();
-                //버퍼를 생성하고 넣음
+
+                if(how_to.equals("POST")){
+                    con.setRequestMethod("POST"); // POST OR GET
+                    con.setRequestProperty("Cache-Control", "no-cache"); //캐시설정
+                    con.setRequestProperty("Content-Type","application/json"); //application json 형식으로 전송
+                    con.setRequestProperty("Accept","application/json"); //서버에 response 데이터를 json로 받음
+                    con.setDoOutput(true); //Outstream으로 post데이터를 넘겨주겠다는 의미
+                    con.setDoInput(true); //Inputstream으로 서버로부터 응답을 받겠다는 의미
+                    con.connect();
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+                    //버퍼를 생성하고 넣음
 //                outStream.write(jsonObject.toString().getBytes());
-                outStream.write(jsonArray.toString().getBytes());
-                outStream.close();
- /*               writer.write(jsonObject.toString());
-                writer.flush();
-                writer.close(); //버퍼를 받아줌*/
-                con.getResponseCode();
+
+                    outStream.write(jsonArray.toString().getBytes());
+                    outStream.close();
+                    con.getResponseCode();
+                }else{
+                    con.connect();
+                }
                 InputStream stream = con.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(stream));
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
 
                 StringBuffer buffer = new StringBuffer();
                 String line = "";
-
                 while((line = reader.readLine()) != null){
                     buffer.append(line);
                 }
-                Log.d("answer", buffer.toString());
                 return buffer.toString();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -107,9 +100,9 @@ public class connecting_js  extends AsyncTask<String, String,String>{
                     e.printStackTrace();
                 }
             }
-        } catch (JSONException e) {
+        /*} catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
         return null;
     }
     @Override

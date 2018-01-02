@@ -12,8 +12,10 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -25,6 +27,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,16 +44,14 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class facebook extends AppCompatActivity {
     CallbackManager callbackManager;
     TextView txtEmail, txtBirthday, txtFriends;
     ProgressDialog mDialog;
     ImageView imgAvatar;
-
-
-    Button testdb;
-    TextView dbdb;
+    EditText login_text, password_text;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -96,12 +97,9 @@ public class facebook extends AppCompatActivity {
                 request.setParameters(parameters);
                 request.executeAsync();
             }
-
             @Override
             public void onCancel() {
-
             }
-
             @Override
             public void onError(FacebookException error) {
 
@@ -127,10 +125,47 @@ public class facebook extends AppCompatActivity {
         Intent intent = new Intent(this, newmember.class);
         startActivity(intent);
     }
-    public void mainact(View view){
+    public void login1(View view) throws JSONException {
         Intent intent = new Intent(this, MainActivity.class);
-//        new connecting_js("/members","","","POST").execute("http:13.124.40.52:9200/api/members/member");
-        startActivity(intent);
+        JSONArray jsonArray;
+        jsonArray = null;
+        login_text = (EditText)findViewById(R.id.login_id);
+        password_text = (EditText)findViewById(R.id.login_password);
+
+        String MD5 = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password_text.toString().getBytes());
+            byte byteData[] = md.digest();
+            StringBuffer sb = new StringBuffer();
+            for(int i = 0 ; i < byteData.length ; i++){
+                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+            }
+            MD5 = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            MD5 = null;
+        }
+        String temp = null;
+        try {
+            temp = new connecting_js(jsonArray, "/members", "/", login_text.getText().toString(), "GET").execute("").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if(temp==null){
+            Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+        }else if(temp!=null){
+            JSONObject jsonObject = new JSONObject(temp);
+            if(MD5.equals(jsonObject.getString("password"))){
+                startActivity(intent);
+            }else{
+                Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+            }
+        }
+        Log.i("string", temp);
+
     }
 
     private void getData(JSONObject object){
