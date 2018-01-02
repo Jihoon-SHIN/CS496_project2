@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -135,7 +136,7 @@ public class facebook extends AppCompatActivity {
         String MD5 = "";
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password_text.toString().getBytes());
+            md.update(password_text.getText().toString().getBytes());
             byte byteData[] = md.digest();
             StringBuffer sb = new StringBuffer();
             for(int i = 0 ; i < byteData.length ; i++){
@@ -156,16 +157,24 @@ public class facebook extends AppCompatActivity {
         }
         if(temp==null){
             Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+            toast.show();
         }else if(temp!=null){
             JSONObject jsonObject = new JSONObject(temp);
+/*            Log.i("jjj", jsonObject.toString());
+            Log.i("md5",MD5);*/
             if(MD5.equals(jsonObject.getString("password"))){
                 startActivity(intent);
+                Toast toast = Toast.makeText(this, "로그인 성공.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                toast.show();
             }else{
                 Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                toast.show();
             }
         }
         Log.i("string", temp);
-
     }
 
     private void getData(JSONObject object){
