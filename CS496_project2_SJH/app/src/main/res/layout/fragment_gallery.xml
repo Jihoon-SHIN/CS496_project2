@@ -12,8 +12,28 @@
     <!--android:background="#000000"-->
     <!--app:srcCompat="@drawable/gallery_image_02" />-->
 
+    <EditText
+        android:id="@+id/base64"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="getPhoto"
+        android:id="@+id/getPhoto"
+        />
+
     <ImageView
         android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#000000"/>
+    <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="#000000"/>

@@ -1,23 +1,39 @@
 package com.example.user.cs496_project2_sjh;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.koushikdutta.ion.Ion;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by user on 2017-12-30.
@@ -29,14 +45,20 @@ public class Fragment_gallery extends Fragment {
         // required
     }
 
+    String path;
+    Button buttonGetPhoto;
+    ImageView mainPhoto;
+    ImageView updatedPhoto;
+    EditText editText;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
     @Override
-
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 //          LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_gallery, container, false);
@@ -64,9 +86,8 @@ public class Fragment_gallery extends Fragment {
 //        }
 
         final Handler handler = new Handler();
-
-
         final View myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
+
 
         Thread t = new Thread(new Runnable() {
             @Override
@@ -93,9 +114,84 @@ public class Fragment_gallery extends Fragment {
             }
         });
 
-        t.start();
+//        t.start();
+
+
+        buttonGetPhoto = (Button)myfragmentView.findViewById((R.id.getPhoto));
+        mainPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView2);
+        updatedPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView3);
+
+        Ion.getDefault(getContext()).configure().setLogging("ion-sample", Log.DEBUG);
+        editText = (EditText)myfragmentView.findViewById(R.id.base64);
+
+        buttonGetPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent fintent = new Intent(Intent.ACTION_GET_CONTENT);
+                fintent.setType("image/jpeg");
+
+                try {
+
+                    startActivityForResult(fintent, 100);
+
+                } catch (ActivityNotFoundException e) {
+
+                }
+            }
+        });
+
 
 
         return myfragmentView;
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+        switch (requestCode) {
+            case 100:
+                if (resultCode == RESULT_OK) {
+                    path = data.getData().getPath();
+                    mainPhoto.setImageURI(data.getData());
+                    String test = encodeImage(RealPathUtil.getRealPathFromURI_API19(getContext(), data.getData()));
+                    editText.setText(test);
+
+                    byte[] imageBytes = Base64.decode(test, Base64.DEFAULT);
+                    Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                    updatedPhoto.setImageBitmap(decodedImage);
+
+
+                    //Toast.makeText(getContext(),encodeImage(RealPathUtil.getRealPathFromURI_API19(getContext(), data.getData())), Toast.LENGTH_LONG).show();
+
+
+                    //Toast.makeText(getContext(),data.getData().getPath(), Toast.LENGTH_LONG).show();
+
+                }
+        }
+    }
+    private String encodeImage(String path)
+    {
+        File imagefile = new File(path);
+        FileInputStream fis = null;
+        try{
+            fis = new FileInputStream(imagefile);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        Bitmap bm = BitmapFactory.decodeStream(fis);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        bm.compress(Bitmap.CompressFormat.JPEG,50,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+        //Base64.de
+        return encImage;
+
+    }
+
 }
+
+
+
+
