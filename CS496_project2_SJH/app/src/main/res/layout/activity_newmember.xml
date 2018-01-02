@@ -36,7 +36,8 @@
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="16dp"
-        android:hint="PASSWORD"/>
+        android:hint="PASSWORD"
+        android:password="true"/>
 
     <EditText
         android:id="@+id/check_password"
@@ -45,7 +46,8 @@
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="16dp"
-        android:hint="CHECK PASSWORD"/>
+        android:hint="CHECK PASSWORD"
+        android:password="true"/>
 
     <EditText
         android:id="@+id/name_db"

@@ -42,7 +42,7 @@
             android:text="LOGIN"
             android:id="@+id/login_button2"
             android:layout_marginTop="50dp"
-            android:onClick="mainact"
+            android:onClick="login1"
             android:background="@color/colorPrimary"
             android:textColor="#ffffff"
             android:layout_gravity="center"

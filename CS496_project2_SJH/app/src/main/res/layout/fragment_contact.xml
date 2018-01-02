@@ -23,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="360dp"
             android:layout_weight="1"></ListView>
-<!--
-        <Button
+
+<!--        Button
             android:id="@+id/diabutton"
             android:text="추가 Diaglog"
             android:layout_width="match_parent"
