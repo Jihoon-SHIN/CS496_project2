@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         btn_third.setOnClickListener(movePageListener);
         btn_third.setTag(2);
 
-        Button btn_fourth = (Button)findViewById(R.id.btn_fourth);
     }
 /*    public void abc(View view){
         Intent intent = new Intent(this, facebook.class);
