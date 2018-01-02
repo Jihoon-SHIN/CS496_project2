@@ -15,17 +15,31 @@
     <EditText
         android:id="@+id/base64"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name" />
 
     <Button
+        android:id="@+id/getPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="getPhoto"
-        android:id="@+id/getPhoto"
-        />
+        android:text="getPhoto" />
+
+    <EditText
+        android:id="@+id/base64_2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <Button
+        android:id="@+id/getPhoto_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="getPhoto_2" />
+
 
     <ImageView
         android:id="@+id/imageView2"

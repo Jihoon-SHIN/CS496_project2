@@ -24,6 +24,10 @@ import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,9 +52,13 @@ public class Fragment_gallery extends Fragment {
 
     String path;
     Button buttonGetPhoto;
+    Button buttonGetPhoto2;
+
     ImageView mainPhoto;
     ImageView updatedPhoto;
     EditText editText;
+    EditText editText2;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,11 +127,17 @@ public class Fragment_gallery extends Fragment {
 
 
         buttonGetPhoto = (Button)myfragmentView.findViewById((R.id.getPhoto));
+        buttonGetPhoto2 = (Button)myfragmentView.findViewById((R.id.getPhoto_2));
+
         mainPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView2);
         updatedPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView3);
 
         Ion.getDefault(getContext()).configure().setLogging("ion-sample", Log.DEBUG);
+
         editText = (EditText)myfragmentView.findViewById(R.id.base64);
+        editText2 = (EditText)myfragmentView.findViewById(R.id.base64_2);
+
+
 
         buttonGetPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +155,32 @@ public class Fragment_gallery extends Fragment {
             }
         });
 
+        buttonGetPhoto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String output = null;
+                try {
+                    output = new connecting_jh(null, "/image", "", "", "GET").execute("").get();
+                    JSONArray jr = new JSONArray(output);
+                    JSONObject object = jr.getJSONObject(0);
 
+                    //editText2.setText(object.getString("img"));
+
+                    byte[] imageBytes = Base64.decode(object.getString("img"), Base64.DEFAULT);
+                    Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                    updatedPhoto.setImageBitmap(decodedImage);
+
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         return myfragmentView;
     }
@@ -157,9 +197,42 @@ public class Fragment_gallery extends Fragment {
                     String test = encodeImage(RealPathUtil.getRealPathFromURI_API19(getContext(), data.getData()));
                     editText.setText(test);
 
+                    String _memberid = "memberID";
+                    String _img = "testImage";
+
+
+                    //JSONObject jsonObject = new JSONObject();
+                    JSONObject jsonObject1 = new JSONObject();
+                    try {
+                        jsonObject1.accumulate("memberID",_memberid);
+                        jsonObject1.accumulate("img",test);
+                        JSONArray jsonArray = new JSONArray();
+                        jsonArray.put(jsonObject1);
+                        new connecting_jh(jsonArray,"/images","","","POST").execute("");
+
+                        //String var =  new connecting_jh(jsonArray,"/image","","","GET").execute("").get();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     byte[] imageBytes = Base64.decode(test, Base64.DEFAULT);
                     Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                     updatedPhoto.setImageBitmap(decodedImage);
+
+                    //"testImage" --> "test"로 수정하기
+
+
+
+                    //  Log.d("test",var);
+
+
+//                        new connecting_jh(jsonArray2,"/image","","","GET").execute("");
+//                        Toast.makeText(getContext(),jsonObject1.toString(), Toast.LENGTH_LONG).show();
+
+
+
 
 
                     //Toast.makeText(getContext(),encodeImage(RealPathUtil.getRealPathFromURI_API19(getContext(), data.getData())), Toast.LENGTH_LONG).show();
@@ -182,7 +255,7 @@ public class Fragment_gallery extends Fragment {
         Bitmap bm = BitmapFactory.decodeStream(fis);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        bm.compress(Bitmap.CompressFormat.JPEG,50,baos);
+        bm.compress(Bitmap.CompressFormat.JPEG,20,baos);
         byte[] b = baos.toByteArray();
         String encImage = Base64.encodeToString(b, Base64.DEFAULT);
         //Base64.de
