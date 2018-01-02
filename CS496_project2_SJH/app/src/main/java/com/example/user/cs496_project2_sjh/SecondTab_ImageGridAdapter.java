@@ -84,10 +84,10 @@ public class SecondTab_ImageGridAdapter extends BaseAdapter {
             // 사진 항목들의 클릭을 처리하는 SecondTab_ImageClickListener 객체를 정의합니다.
             // 그리고 그것을 ImageView의 클릭 리스너로 설정합니다.
 
-            /*
-            SecondTab_ImageClickListener imageViewClickListener = new SecondTab_ImageClickListener(context,imageIDs[position]);
+
+            SecondTab_ImageClickListener imageViewClickListener = new SecondTab_ImageClickListener(context,imageIDs.get(position));
             imageView.setOnClickListener(imageViewClickListener);
-            */
+
         }
 
         return imageView;
@@ -102,9 +102,9 @@ public class SecondTab_ImageGridAdapter extends BaseAdapter {
         //-----------------------------------------------------------
         // imageID는 확대해서 보여줄 이미지의 리소스 ID입니다.
 
-        int imageID;
+        String imageID;
 
-        public SecondTab_ImageClickListener(Context context, int imageID) {
+        public SecondTab_ImageClickListener(Context context, String imageID) {
             this.context = context;
             this.imageID = imageID;
             this.view = view;
@@ -120,10 +120,12 @@ public class SecondTab_ImageGridAdapter extends BaseAdapter {
 //            intent.putExtra("image ID", imageID);
 //            context.startActivity(intent);
 
-// 큰 화면 전환
-//            ImageView label;
-//            label = (ImageView)activity.findViewById(R.id.imageView2);
-//            label.setImageResource(imageID);
+
+            ImageView label;
+            label = (ImageView)activity.findViewById(R.id.imageView3);
+            byte[] imageBytes = Base64.decode(imageID, Base64.DEFAULT);
+            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            label.setImageBitmap(decodedImage);
 
 
 

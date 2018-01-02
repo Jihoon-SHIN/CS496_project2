@@ -1,6 +1,7 @@
 package com.example.user.cs496_project2_sjh;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -60,31 +62,33 @@ public class Fragment_gallery extends Fragment {
     EditText editText;
     EditText editText2;
 
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
+    View myfragmentView;
+    GridView gridViewImages;
+    SecondTab_ImageGridAdapter imageGridAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
         AddArray addArray = new AddArray();
-        final ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray());
-        View myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
+        ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray("memberID"));
+        Toast.makeText(getContext(),"# of images" + imageIDs.size(), Toast.LENGTH_LONG).show();
+        myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
+        gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
+
         final Handler handler = new Handler();
-        GridView gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
 
 
 
-        SecondTab_ImageGridAdapter imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
+
+        imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
         gridViewImages.setAdapter(imageGridAdapter);
 
 
 
-        //        SecondTab_ImageGridAdapter imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
+
+        // SecondTab_ImageGridAdapter imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
 //
 //        ImageView label;
 //        Bitmap bmp = null;
@@ -109,7 +113,6 @@ public class Fragment_gallery extends Fragment {
 //        Thread t = new Thread(new Runnable() {
 //            @Override
 //            public void run() {    // 오래 거릴 작업을 구현한다
-//                // TODO Auto-generated method stub
 //                try{
 //                    // 걍 외우는게 좋다 -_-;
 //                    final ImageView iv = (ImageView)myfragmentView.findViewById(R.id.imageView2);
@@ -156,6 +159,8 @@ public class Fragment_gallery extends Fragment {
                 } catch (ActivityNotFoundException e) {
 
                 }
+
+
             }
         });
 
@@ -163,6 +168,14 @@ public class Fragment_gallery extends Fragment {
             @Override
             public void onClick(View v) {
                 String output = null;
+                AddArray addArray1 = new AddArray();
+                ArrayList<String> _imageIDs = new ArrayList<String>(addArray1.setArray("memberID"));
+                imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),_imageIDs, getActivity());
+                gridViewImages.setAdapter(imageGridAdapter);
+                Toast.makeText(getContext(),"# of images" + _imageIDs.size(), Toast.LENGTH_LONG).show();
+
+
+                /*
                 try {
                     output = new connecting_jh(null, "/image", "", "", "GET").execute("").get();
                     JSONArray jr = new JSONArray(output);
@@ -184,11 +197,13 @@ public class Fragment_gallery extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                */
             }
         });
 
         return myfragmentView;
     }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {
@@ -198,9 +213,10 @@ public class Fragment_gallery extends Fragment {
             case 100:
                 if (resultCode == RESULT_OK) {
                     path = data.getData().getPath();
-                    mainPhoto.setImageURI(data.getData());
+                    //mainPhoto.setImageURI(data.getData());
                     String test = encodeImage(RealPathUtil.getRealPathFromURI_API19(getContext(), data.getData()));
-                    editText.setText(test);
+                    //editText.setText(test);
+
 
                     String _memberid = "memberID";
                     String _img = "testImage";
@@ -230,6 +246,14 @@ public class Fragment_gallery extends Fragment {
 
                     //Toast.makeText(getContext(),data.getData().getPath(), Toast.LENGTH_LONG).show();
 
+                    AddArray addArray1 = new AddArray();
+                    ArrayList<String> _imageIDs1 = new ArrayList<String>(addArray1.setArray("memberID"));
+                    imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),_imageIDs1, getActivity());
+                    gridViewImages.setAdapter(imageGridAdapter);
+                    Toast.makeText(getContext(),"# of images" + _imageIDs1.size(), Toast.LENGTH_LONG).show();
+
+
+
                 }
         }
     }
@@ -254,7 +278,3 @@ public class Fragment_gallery extends Fragment {
     }
 
 }
-
-
-
-

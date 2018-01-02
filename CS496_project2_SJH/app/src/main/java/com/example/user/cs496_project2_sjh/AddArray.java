@@ -18,24 +18,23 @@ import java.util.concurrent.ExecutionException;
 public class AddArray{
 
 
-    public ArrayList<String> setArray() {
+    public ArrayList<String> setArray(String id) {
 
         ArrayList<String> mylist = new ArrayList<String>();
         String output = null;
 
         try {
 
-            output = new connecting_jh(null, "/image", "", "", "GET").execute("").get();
+            output = new connecting_jh(null, "/images/memberID/"+id, "", "", "GET").execute("").get();
             JSONArray jr = new JSONArray(output);
 
-            JSONObject object = jr.getJSONObject(0);
-            output = object.getString("img");
-            mylist.add(output);
+            for(int i = 0; i < jr.length(); i ++){
+                JSONObject object = jr.getJSONObject(i);
+                output = object.getString("img");
+                mylist.add(output);
 
-            object = jr.getJSONObject(1);
-            output = object.getString("img");
-            mylist.add(output);
 
+            }
 
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -11,25 +11,33 @@
     <!--android:layout_width="match_parent"-->
     <!--android:background="#000000"-->
     <!--app:srcCompat="@drawable/gallery_image_02" />-->
-
-    <Button
-        android:id="@+id/getPhoto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UploadPhoto" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/getPhoto_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="getPhoto_2" />
+        <Button
+            android:id="@+id/getPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="UploadPhoto" />
+
+
+        <Button
+            android:id="@+id/getPhoto_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sync" />
+    </LinearLayout>
 
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#000000"/>
+        android:layout_height="303dp"
+        android:background="#000000" />
 
     <GridView
 
