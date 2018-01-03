@@ -1,43 +1,43 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:fab="http://schemas.android.com/tools"
     >
 
-    <!--<ImageView-->
-    <!--android:id="@+id/LargeImage"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:background="#000000"-->
-    <!--app:srcCompat="@drawable/gallery_image_02" />-->
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_24dp"
+        android:backgroundTint="#FFFFFF"
+        fab:fab_colorNormal="#FFFFFF"
+        fab:fab_colorPressed="#FFFFFF"
+        fab:fab_colorRipple="#FFFFFF"
+        android:tint="#000000"
+
+        />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#000000" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/getPhoto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="UploadPhoto" />
 
-
-        <Button
-            android:id="@+id/getPhoto_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Sync" />
     </LinearLayout>
-
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="303dp"
-        android:background="#000000" />
 
     <GridView
 
@@ -48,8 +48,8 @@
         android:numColumns="3"
         android:paddingBottom="5dp"
         android:paddingTop="0dp"
-        android:verticalSpacing="5dp"></GridView>
-
-    ﻿
-</LinearLayout>
+        android:verticalSpacing="5dp">
+    </GridView>
+    ﻿</LinearLayout>
+</FrameLayout>
 

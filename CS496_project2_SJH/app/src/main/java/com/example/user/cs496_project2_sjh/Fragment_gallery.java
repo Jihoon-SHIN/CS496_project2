@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
+import com.melnykov.fab.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,23 +39,16 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class Fragment_gallery extends Fragment {
-    public Fragment_gallery()
-    {
-        // required
+    public Fragment_gallery() {
     }
 
-    String path;
     Button buttonGetPhoto;
     Button buttonGetPhoto2;
 
-    ImageView mainPhoto;
     ImageView updatedPhoto;
-    EditText editText;
-    EditText editText2;
-
     View myfragmentView;
     GridView gridViewImages;
-    SecondTab_ImageGridAdapter imageGridAdapter;
+
 
     String _memberid = "memberID2";
     AddArray addArray = new AddArray(_memberid);
@@ -65,92 +59,28 @@ public class Fragment_gallery extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-/*
-        AddArray addArray = new AddArray();
-        ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray("memberID"));
-        Toast.makeText(getContext(),"# of images" + imageIDs.size(), Toast.LENGTH_LONG).show();
-        final Handler handler = new Handler();
-        gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
-        imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
-        gridViewImages.setAdapter(imageGridAdapter);
-*/
-
         myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
 
-
-       addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
-
-
-        /*
-        AddArray addArray = new AddArray();
-        ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray("memberID"));
-        Toast.makeText(getContext(),"# of images" + imageIDs.size(), Toast.LENGTH_LONG).show();
-        final Handler handler = new Handler();
-
-
-        */
+        addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
 
 
 
 
-        // SecondTab_ImageGridAdapter imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
-//
-//        ImageView label;
-//        Bitmap bmp = null;
-//
-//        label = (ImageView)layout.findViewById(R.id.imageView2);
-//        URL url = null;
-//        try {
-//            url = new URL("http://myhswm.org/images/sized/images/animals/August-256x256.jpg");
-//            try {
-//                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-////              label.setImageBitmap(bmp);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-
-
-//
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {    // 오래 거릴 작업을 구현한다
-//                try{
-//                    // 걍 외우는게 좋다 -_-;
-//                    final ImageView iv = (ImageView)myfragmentView.findViewById(R.id.imageView2);
-//                    URL url = new URL("http://myhswm.org/images/sized/images/animals/August-256x256.jpg");
-//                    InputStream is = url.openStream();
-//                    final Bitmap bm = BitmapFactory.decodeStream(is);
-//                    handler.post(new Runnable() {
-//
-//                        @Override
-//                        public void run() {  // 화면에 그려줄 작업
-//                            iv.setImageBitmap(bm);
-//                        }
-//                    });
-//                    iv.setImageBitmap(bm); //비트맵 객체로 보여주기
-//                } catch(Exception e){
-//
-//                }
-//
-//            }
-//        });
-
-//        t.start();
-
-
-        buttonGetPhoto = (Button)myfragmentView.findViewById((R.id.getPhoto));
-        buttonGetPhoto2 = (Button)myfragmentView.findViewById((R.id.getPhoto_2));
+        //buttonGetPhoto = (Button)myfragmentView.findViewById((R.id.getPhoto));
+        //buttonGetPhoto2 = (Button)myfragmentView.findViewById((R.id.getPhoto_2));
         updatedPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView3);
+
+        GridView gv = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
 
         Ion.getDefault(getContext()).configure().setLogging("ion-sample", Log.DEBUG);
 
 
+        // Floating Action Button을 리스트 뷰에 적용
+        FloatingActionButton fab = (FloatingActionButton) myfragmentView.findViewById(R.id.fab);
+        fab.attachToListView(gv);
 
-        buttonGetPhoto.setOnClickListener(new View.OnClickListener() {
+        // 이벤트 적용
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent fintent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -163,44 +93,24 @@ public class Fragment_gallery extends Fragment {
                 } catch (ActivityNotFoundException e) {
 
                 }
-
-
             }
         });
 
-        buttonGetPhoto2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String output = null;
-
-                addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
-
-
-                /*
-                try {
-                    output = new connecting_jh(null, "/image", "", "", "GET").execute("").get();
-                    JSONArray jr = new JSONArray(output);
-                    JSONObject object = jr.getJSONObject(0);
-
-                    //editText2.setText(object.getString("img"));
-
-                    byte[] imageBytes = Base64.decode(object.getString("img"), Base64.DEFAULT);
-//                    byte[] imageBytes = Base64.decode(imageIDs.get(0), Base64.DEFAULT);
-
-                    Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-                    updatedPhoto.setImageBitmap(decodedImage);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                */
-            }
-        });
+//        buttonGetPhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//        });
+//
+//        buttonGetPhoto2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String output = null;
+//
+//                addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
+//
+//            }
+//        });
 
         return myfragmentView;
     }
@@ -213,16 +123,14 @@ public class Fragment_gallery extends Fragment {
         switch (requestCode) {
             case 100:
                 if (resultCode == RESULT_OK) {
-                    path = data.getData().getPath();
-                    //mainPhoto.setImageURI(data.getData());
+
+
                     String test = encodeImage(RealPathUtil.getRealPathFromURI_API19(getContext(), data.getData()));
-                    //editText.setText(test);
 
 
                     String _img = "testImage";
 
 
-                    //JSONObject jsonObject = new JSONObject();
                     JSONObject jsonObject1 = new JSONObject();
                     try {
                         jsonObject1.accumulate("memberID",_memberid);
@@ -230,8 +138,6 @@ public class Fragment_gallery extends Fragment {
                         JSONArray jsonArray = new JSONArray();
                         jsonArray.put(jsonObject1);
                         new connecting_jh(jsonArray,"/images","","","POST").execute("");
-
-                        //String var =  new connecting_jh(jsonArray,"/image","","","GET").execute("").get();
 
 
                     } catch (JSONException e) {
@@ -241,8 +147,6 @@ public class Fragment_gallery extends Fragment {
                     byte[] imageBytes = Base64.decode(test, Base64.DEFAULT);
                     Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                     updatedPhoto.setImageBitmap(decodedImage);
-
-                    //"testImage" --> "test"로 수정하기
 
                     //Toast.makeText(getContext(),data.getData().getPath(), Toast.LENGTH_LONG).show();
 
@@ -269,7 +173,7 @@ public class Fragment_gallery extends Fragment {
         bm.compress(Bitmap.CompressFormat.JPEG,20,baos);
         byte[] b = baos.toByteArray();
         String encImage = Base64.encodeToString(b, Base64.DEFAULT);
-        //Base64.de
+
         return encImage;
 
     }

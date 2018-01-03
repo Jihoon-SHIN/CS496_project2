@@ -27,7 +27,7 @@ import java.net.URL;
  */
 
 public class connecting_jh  extends AsyncTask<String, String,String>{
-    String url1 = "http:13.124.40.52:8080/api";
+    String url1 = "http:13.124.40.52:20180/api";
     String memberID;
     String input_string;
     String how_to;
@@ -48,15 +48,7 @@ public class connecting_jh  extends AsyncTask<String, String,String>{
     @Override
     protected String doInBackground(String... strings) {
 
-            //JSON Object를 만들고 key value형식으로 값을 저장해준다.
 
-
-            /*jsonObject.accumulate("member1","andoridTest");
-            jsonObject.accumulate("password","496496cs");
-            jsonObject.accumulate("name","cscscs");
-            jsonObject.accumulate("phone","01049649649");
-            */
-//            jsonObject = (JSONObject) jsonArray.get(0);
             HttpURLConnection con = null;
             BufferedReader reader = null;
             try{
