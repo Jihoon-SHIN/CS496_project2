@@ -70,7 +70,6 @@ public class facebook extends AppCompatActivity {
         txtBirthday = (TextView)findViewById(R.id.txtBirthday);
         txtEmail = (TextView)findViewById(R.id.txtEmail);
         txtFriends = (TextView)findViewById(R.id.txtFriends);
-
         imgAvatar = (ImageView)findViewById(R.id.avatar);
 
         LoginButton loginButton = (LoginButton)findViewById(R.id.login_button);
@@ -93,8 +92,9 @@ public class facebook extends AppCompatActivity {
 
                     }
                 });
+
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,email,birthday,friends");
+                parameters.putString("fields", "id,email,birthday,taggable_friends");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -130,54 +130,53 @@ public class facebook extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         JSONArray jsonArray;
         jsonArray = null;
+
         login_text = (EditText)findViewById(R.id.login_id);
         password_text = (EditText)findViewById(R.id.login_password);
 
-        startActivity(intent);
 
-//
-//        String MD5 = "";
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("MD5");
-//            md.update(password_text.getText().toString().getBytes());
-//            byte byteData[] = md.digest();
-//            StringBuffer sb = new StringBuffer();
-//            for(int i = 0 ; i < byteData.length ; i++){
-//                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
-//            }
-//            MD5 = sb.toString();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//            MD5 = null;
-//        }
-//        String temp = null;
-//        try {
-//            temp = new connecting_js(jsonArray, "/members", "/", login_text.getText().toString(), "GET").execute("").get();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//        if(temp==null){
-//            Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
-//            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-//            toast.show();
-//        }else if(temp!=null){
-//            JSONObject jsonObject = new JSONObject(temp);
-///*            Log.i("jjj", jsonObject.toString());
-//            Log.i("md5",MD5);*/
-//            if(MD5.equals(jsonObject.getString("password"))){
-//                startActivity(intent);
-//                Toast toast = Toast.makeText(this, "로그인 성공.", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-//                toast.show();
-//            }else{
-//                Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-//                toast.show();
-//            }
-//        }
-//        Log.i("string", temp);
+        String MD5 = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password_text.getText().toString().getBytes());
+            byte byteData[] = md.digest();
+            StringBuffer sb = new StringBuffer();
+            for(int i = 0 ; i < byteData.length ; i++){
+                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+            }
+            MD5 = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            MD5 = null;
+        }
+        String temp = null;
+        try {
+            temp = new connecting_js(jsonArray, "/members", "/", login_text.getText().toString(), "GET").execute("").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if(temp==null){
+            Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+            toast.show();
+        }else if(temp!=null){
+            JSONObject jsonObject = new JSONObject(temp);
+/*            Log.i("jjj", jsonObject.toString());
+            Log.i("md5",MD5);*/
+            if(MD5.equals(jsonObject.getString("password"))){
+                intent.putExtra("memberID", temp);
+                startActivity(intent);
+                Toast toast = Toast.makeText(this, "로그인 성공.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                toast.show();
+            }else{
+                Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                toast.show();
+            }
+        }
     }
 
     private void getData(JSONObject object){
@@ -185,9 +184,9 @@ public class facebook extends AppCompatActivity {
             URL profile_picture = new URL("https://graph.facebook.com/"+object.getString("id")+"/picture?width=250&height=250");
 //            Picasso.with(this).load(profile_picture.toString()).into(imgAvatar);
 
-            txtBirthday.setText(object.getString("birthday"));
-            txtFriends.setText(object.getJSONObject("friends").getJSONObject("summary").getString("total_count"));
-            Log.i("Friends",object.getString("friends"));
+//            txtBirthday.setText(object.getString("birthday"));
+//            txtFriends.setText(object.getJSONObject("friends").getJSONObject("summary").getString("total_count"));
+            Log.i("Friends",object.getString("/me/taggable_friends"));
 
         }catch(MalformedURLException e){
             e.printStackTrace();

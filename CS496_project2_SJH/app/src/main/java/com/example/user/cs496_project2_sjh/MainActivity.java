@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         btn_second.setTag(1);
         btn_third.setOnClickListener(movePageListener);
         btn_third.setTag(2);
-
     }
 /*    public void abc(View view){
         Intent intent = new Intent(this, facebook.class);

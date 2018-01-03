@@ -7,11 +7,11 @@ import android.graphics.drawable.Drawable;
 
 public class listviewitem {
     //    private Drawable iconDrawable ;
-    private Drawable iconDrawable;
+    private int iconDrawable;
     private String titleStr ;
     private String descStr ;
 
-    public void setIcon(Drawable icon) {
+    public void setIcon(int icon) {
         iconDrawable = icon ;
     }
     public void setTitle(String title) {
@@ -21,7 +21,7 @@ public class listviewitem {
         descStr = desc ;
     }
 
-    public Drawable getIcon() {
+    public int getIcon() {
         return this.iconDrawable ;
     }
     public String getTitle() {
