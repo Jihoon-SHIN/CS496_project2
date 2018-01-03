@@ -1,5 +1,6 @@
 package com.example.user.cs496_project2_sjh;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,7 +41,10 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class Fragment_gallery extends Fragment {
-    public Fragment_gallery() {
+    public String _memberid;
+
+    public Fragment_gallery(String id) {
+        this._memberid = id;
     }
 
     Button buttonGetPhoto;
@@ -51,8 +55,9 @@ public class Fragment_gallery extends Fragment {
     GridView gridViewImages;
 
 
-    String _memberid = "memberID4";
-    AddArray addArray = new AddArray(_memberid);
+//    Intent intent =  getActivity().getIntent();
+
+    AddArray addArray;
 
 
 
@@ -60,6 +65,8 @@ public class Fragment_gallery extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+       // _memberid = intent.getStringExtra("memberID");
+        addArray = new AddArray(_memberid);
         myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
 
         addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
@@ -70,6 +77,7 @@ public class Fragment_gallery extends Fragment {
         Ion.getDefault(getContext()).configure().setLogging("ion-sample", Log.DEBUG);
 
 
+        addArray.imageGridAdapter(myfragmentView,getActivity(),gridViewImages);
 
 
 
@@ -124,7 +132,6 @@ public class Fragment_gallery extends Fragment {
 
 
                     String test = encodeImage(RealPathUtil.getRealPathFromURI_API19(getContext(), data.getData()));
-
 
                     String _img = "testImage";
 

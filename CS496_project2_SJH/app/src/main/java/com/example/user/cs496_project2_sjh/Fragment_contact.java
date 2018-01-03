@@ -40,10 +40,13 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class Fragment_contact extends Fragment {
-    public Fragment_contact()
+    private String memid, key,facebookValue;
+    public Fragment_contact(String memid, String key, String facebookValue)
     {
         // required
-
+        this.memid = memid;
+        this.key = key;
+        this.facebookValue = facebookValue;
     }
     private ListViewAdapter adapter;
     private ListView listView;
@@ -110,12 +113,13 @@ public class Fragment_contact extends Fragment {
         listView = (ListView)myfragmentView.findViewById(R.id.listview1);
         list = new ArrayList<>();
 
-        intent = getActivity().getIntent();
+        //intent = getActivity().getIntent();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (intent.getStringExtra("key").equals("login_own")) {
+                 //if (intent.getStringExtra("key").equals("login_own")) {
+                if (key.equals("login_own")) {
                     String temp = null;
                     JSONArray jsonArray = new JSONArray();
                     add_mycontact_db add_mycontact_db = new add_mycontact_db(getContext());
@@ -126,7 +130,7 @@ public class Fragment_contact extends Fragment {
 //                        list.add(mlistview(icon, dataList.get(i).get("name"), dataList.get(i).get("phone")));
                         try {
                             JSONObject jsonObject = new JSONObject();
-                            jsonObject.accumulate("memberID", intent.getStringExtra("memberID"));
+                            jsonObject.accumulate("memberID", memid);
                             jsonObject.accumulate("img", null);
                             jsonObject.accumulate("name", dataList.get(i).get("name"));
                             jsonObject.accumulate("phone", dataList.get(i).get("phone"));
@@ -140,7 +144,7 @@ public class Fragment_contact extends Fragment {
                     listView.setAdapter(adapter);*/
                     new connecting_js(jsonArray, "/contacts", "", "", "POST").execute("http:13.124.40.52:9200/api/members/member");
                 }else{
-                    String json = intent.getStringExtra("facebook");
+                    String json = facebookValue;
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(json);
@@ -188,7 +192,7 @@ public class Fragment_contact extends Fragment {
 //                        list.add(mlistview(myBitmap2, name, "FaceBook은 연락처를 주기 싫어용"));
                         try {
                             JSONObject jsonObject1 = new JSONObject();
-                            jsonObject1.accumulate("memberID", intent.getStringExtra("memberID"));
+                            jsonObject1.accumulate("memberID", memid);
                             jsonObject1.accumulate("name",name);
                             jsonObject1.accumulate("img", url2);
                             jsonObject1.accumulate("phone", "Facebook은 연락처를 안줘잉");
@@ -209,7 +213,7 @@ public class Fragment_contact extends Fragment {
             @Override
             public void onClick(View view) {
                 add_contact a = new add_contact();
-                if (intent.getStringExtra("key").equals("login_own")){
+                if (key.equals("login_own")){
                     String temp = null;
                     JSONArray jsonArray4 = new JSONArray();
                     try {

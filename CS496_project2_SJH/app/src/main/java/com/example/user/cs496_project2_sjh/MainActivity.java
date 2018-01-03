@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
 
         setContentView(R.layout.activity_main);
@@ -62,15 +62,19 @@ public class MainActivity extends AppCompatActivity {
         {
             super(fm);
         }
+        Intent intent = getIntent();
+        String memid = intent.getStringExtra("memberID");
+        String key = intent.getStringExtra("key");
+        String facebookValue = intent.getStringExtra("facebook");
 
         @Override
         public Fragment getItem(int position) {
             switch(position)
             {
                 case 0:
-                    return new Fragment_contact();
+                    return new Fragment_contact( memid,  key, facebookValue);
                 case 1:
-                    return new Fragment_gallery();
+                    return new Fragment_gallery(memid);
                 case 2:
                     return new Fragment_free();
                 default:

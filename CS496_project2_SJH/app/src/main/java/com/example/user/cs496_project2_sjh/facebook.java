@@ -49,6 +49,7 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class facebook extends AppCompatActivity {
+
     CallbackManager callbackManager;
     TextView txtEmail, txtBirthday, txtFriends;
     ProgressDialog mDialog;
@@ -65,6 +66,8 @@ public class facebook extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
+
+        getSupportActionBar().hide();
 
         callbackManager = CallbackManager.Factory.create();
 

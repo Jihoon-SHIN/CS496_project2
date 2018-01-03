@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,6 +28,8 @@ public class newmember extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newmember);
+        getSupportActionBar().hide();
+
         //커스텀 다이얼로그의 각 위젯들을 정의한다.
         name = (EditText) findViewById(R.id.message);
         phone = (EditText) findViewById(R.id.phonenumber);
