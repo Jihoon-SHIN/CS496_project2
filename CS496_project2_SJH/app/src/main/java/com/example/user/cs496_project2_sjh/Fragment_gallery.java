@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,7 +51,7 @@ public class Fragment_gallery extends Fragment {
     GridView gridViewImages;
 
 
-    String _memberid = "memberID2";
+    String _memberid = "memberID4";
     AddArray addArray = new AddArray(_memberid);
 
 
@@ -62,17 +63,14 @@ public class Fragment_gallery extends Fragment {
         myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
 
         addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
-
-
-
-
-        //buttonGetPhoto = (Button)myfragmentView.findViewById((R.id.getPhoto));
-        //buttonGetPhoto2 = (Button)myfragmentView.findViewById((R.id.getPhoto_2));
         updatedPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView3);
 
         GridView gv = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
 
         Ion.getDefault(getContext()).configure().setLogging("ion-sample", Log.DEBUG);
+
+
+
 
 
         // Floating Action Button을 리스트 뷰에 적용
@@ -178,4 +176,8 @@ public class Fragment_gallery extends Fragment {
 
     }
 
+
+
 }
+
+

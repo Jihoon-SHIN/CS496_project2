@@ -45,7 +45,6 @@ public class AddArray{
                     mylist.add(output);
                 }
             }
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -53,33 +52,36 @@ public class AddArray{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return mylist;
     }
 
 
-    /*
-    AddArray addArray = new AddArray();
-    ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray("memberID"));
-    Toast.makeText(getContext(),"# of images" + imageIDs.size(), Toast.LENGTH_LONG).show();
-    final Handler handler = new Handler();
-
-    gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
-    imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
-    gridViewImages.setAdapter(imageGridAdapter);
-    */
-
     public void imageGridAdapter(View myfragmentView, FragmentActivity activity, GridView gridViewImages) {
         imageIDs = new ArrayList<String>(setArray(memberID));
         if(imageIDs.size() ==0){
-            Toast.makeText(activity,"Plz add images" + imageIDs.size(), Toast.LENGTH_LONG).show();
+            Toast.makeText(activity,"Please add your photos!!" + imageIDs.size(), Toast.LENGTH_LONG).show();
 
         }else{
             gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
             imageGridAdapter = new SecondTab_ImageGridAdapter(activity,setArray(memberID), activity);
             gridViewImages.setAdapter(imageGridAdapter);
-            Toast.makeText(activity,memberID + " "+ imageIDs.size() +" images", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity,  imageIDs.size() +"photos are Uploaded", Toast.LENGTH_LONG).show();
         }
+    }
+    public void imageGridAdapterUpdate( FragmentActivity activity, GridView gridViewImages) throws ExecutionException, InterruptedException {
+        if(imageIDs.size() ==0){
+            Toast.makeText(activity,"Plz add images" + imageIDs.size(), Toast.LENGTH_LONG).show();
+        }else{
+//            gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
+            //TODO imageGridAdapter에서 Array하나 추가하기
+//            imageGridAdapter(activity,setArray(memberID), activity);
+//
 
+            //gridViewImages.setAdapter(imageGridAdapter);
+            String output = new connecting_jh(null, "/images/memberID/last/"+memberID, "", "", "GET").execute("").get();
+            imageGridAdapter.imageIDs.add(0,output);
+            //imageGridAdapter.imageIDs.add(output);
+            imageGridAdapter.notifyDataSetChanged();
+        }
     }
 }
