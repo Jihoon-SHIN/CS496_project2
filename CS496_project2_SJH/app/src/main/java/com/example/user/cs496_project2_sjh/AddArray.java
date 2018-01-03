@@ -1,8 +1,10 @@
 package com.example.user.cs496_project2_sjh;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.GridView;
+import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +19,13 @@ import java.util.concurrent.ExecutionException;
 
 public class AddArray{
 
+    public ArrayList<String> imageIDs;
+    private String memberID;
+    private SecondTab_ImageGridAdapter imageGridAdapter;
+
+    public AddArray(String id){
+        this.memberID = id;
+    }
 
     public ArrayList<String> setArray(String id) {
 
@@ -25,15 +34,16 @@ public class AddArray{
 
         try {
 
-            output = new connecting_jh(null, "/images/memberID/"+id, "", "", "GET").execute("").get();
-            JSONArray jr = new JSONArray(output);
-
-            for(int i = 0; i < jr.length(); i ++){
-                JSONObject object = jr.getJSONObject(i);
-                output = object.getString("img");
-                mylist.add(output);
-
-
+            output = new connecting_jh(null, "/images/memberID/"+memberID, "", "", "GET").execute("").get();
+            if(output != null){
+                JSONArray jr = new JSONArray(output);
+                for(int i = 0; i <jr.length() ; i++){
+                    int temp ;
+                    temp  = jr.length()-i-1;
+                    JSONObject object = jr.getJSONObject(temp);
+                    output = object.getString("img");
+                    mylist.add(output);
+                }
             }
 
         } catch (InterruptedException e) {
@@ -45,5 +55,31 @@ public class AddArray{
         }
 
         return mylist;
+    }
+
+
+    /*
+    AddArray addArray = new AddArray();
+    ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray("memberID"));
+    Toast.makeText(getContext(),"# of images" + imageIDs.size(), Toast.LENGTH_LONG).show();
+    final Handler handler = new Handler();
+
+    gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
+    imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
+    gridViewImages.setAdapter(imageGridAdapter);
+    */
+
+    public void imageGridAdapter(View myfragmentView, FragmentActivity activity, GridView gridViewImages) {
+        imageIDs = new ArrayList<String>(setArray(memberID));
+        if(imageIDs.size() ==0){
+            Toast.makeText(activity,"Plz add images" + imageIDs.size(), Toast.LENGTH_LONG).show();
+
+        }else{
+            gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
+            imageGridAdapter = new SecondTab_ImageGridAdapter(activity,setArray(memberID), activity);
+            gridViewImages.setAdapter(imageGridAdapter);
+            Toast.makeText(activity,memberID + " "+ imageIDs.size() +" images", Toast.LENGTH_LONG).show();
+        }
+
     }
 }

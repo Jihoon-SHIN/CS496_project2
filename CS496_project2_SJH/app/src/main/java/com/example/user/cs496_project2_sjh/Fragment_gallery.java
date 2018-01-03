@@ -1,11 +1,9 @@
 package com.example.user.cs496_project2_sjh;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -15,13 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.koushikdutta.ion.Ion;
@@ -34,12 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -66,24 +56,39 @@ public class Fragment_gallery extends Fragment {
     GridView gridViewImages;
     SecondTab_ImageGridAdapter imageGridAdapter;
 
+    String _memberid = "memberID2";
+    AddArray addArray = new AddArray(_memberid);
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
+/*
         AddArray addArray = new AddArray();
         ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray("memberID"));
         Toast.makeText(getContext(),"# of images" + imageIDs.size(), Toast.LENGTH_LONG).show();
-        myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
+        final Handler handler = new Handler();
         gridViewImages = (GridView) myfragmentView.findViewById(R.id.gridViewImages);
+        imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
+        gridViewImages.setAdapter(imageGridAdapter);
+*/
 
+        myfragmentView = inflater.inflate(R.layout.fragment_gallery,container,false);
+
+
+       addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
+
+
+        /*
+        AddArray addArray = new AddArray();
+        ArrayList<String> imageIDs = new ArrayList<String>(addArray.setArray("memberID"));
+        Toast.makeText(getContext(),"# of images" + imageIDs.size(), Toast.LENGTH_LONG).show();
         final Handler handler = new Handler();
 
 
-
-
-        imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),imageIDs, getActivity());
-        gridViewImages.setAdapter(imageGridAdapter);
+        */
 
 
 
@@ -139,7 +144,6 @@ public class Fragment_gallery extends Fragment {
 
         buttonGetPhoto = (Button)myfragmentView.findViewById((R.id.getPhoto));
         buttonGetPhoto2 = (Button)myfragmentView.findViewById((R.id.getPhoto_2));
-
         updatedPhoto = (ImageView)myfragmentView.findViewById(R.id.imageView3);
 
         Ion.getDefault(getContext()).configure().setLogging("ion-sample", Log.DEBUG);
@@ -168,11 +172,8 @@ public class Fragment_gallery extends Fragment {
             @Override
             public void onClick(View v) {
                 String output = null;
-                AddArray addArray1 = new AddArray();
-                ArrayList<String> _imageIDs = new ArrayList<String>(addArray1.setArray("memberID"));
-                imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),_imageIDs, getActivity());
-                gridViewImages.setAdapter(imageGridAdapter);
-                Toast.makeText(getContext(),"# of images" + _imageIDs.size(), Toast.LENGTH_LONG).show();
+
+                addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
 
 
                 /*
@@ -218,7 +219,6 @@ public class Fragment_gallery extends Fragment {
                     //editText.setText(test);
 
 
-                    String _memberid = "memberID";
                     String _img = "testImage";
 
 
@@ -246,11 +246,8 @@ public class Fragment_gallery extends Fragment {
 
                     //Toast.makeText(getContext(),data.getData().getPath(), Toast.LENGTH_LONG).show();
 
-                    AddArray addArray1 = new AddArray();
-                    ArrayList<String> _imageIDs1 = new ArrayList<String>(addArray1.setArray("memberID"));
-                    imageGridAdapter = new SecondTab_ImageGridAdapter(getActivity(),_imageIDs1, getActivity());
-                    gridViewImages.setAdapter(imageGridAdapter);
-                    Toast.makeText(getContext(),"# of images" + _imageIDs1.size(), Toast.LENGTH_LONG).show();
+                    addArray.imageGridAdapter(myfragmentView,getActivity(), gridViewImages);
+
 
 
 
