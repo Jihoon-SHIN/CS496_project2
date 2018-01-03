@@ -123,7 +123,7 @@ public class Fragment_contact extends Fragment {
                     for (int i = 0; i < dataList.size(); i++) {
                         BitmapDrawable ico = (BitmapDrawable) getContext().getResources().getDrawable(R.drawable.minah);
                         Bitmap icon = ico.getBitmap();
-                        list.add(mlistview(icon, dataList.get(i).get("name"), dataList.get(i).get("phone")));
+//                        list.add(mlistview(icon, dataList.get(i).get("name"), dataList.get(i).get("phone")));
                         try {
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.accumulate("memberID", intent.getStringExtra("memberID"));
@@ -208,7 +208,84 @@ public class Fragment_contact extends Fragment {
         button_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                add_contact a = new add_contact();
+                if (intent.getStringExtra("key").equals("login_own")){
+                    String temp = null;
+                    JSONArray jsonArray4 = new JSONArray();
+                    try {
+                        temp = new connecting_js(null, "/contacts", "", "", "GET").execute("http:13.124.40.52:9200/api/members/member").get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        jsonArray4 = new JSONArray(temp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    for(int i=0; i<jsonArray4.length();i++) {
+                        JSONObject object = null;
+                        String memberID = null;
+                        String name = null;
+                        String phone = null;
+                        try {
+                            object = (JSONObject) jsonArray4.get(i);
+                            memberID = object.getString("memberID");
+                            name = object.getString("name");
+                            phone = object.getString("phone");
+                            BitmapDrawable ico = (BitmapDrawable) getContext().getResources().getDrawable(R.drawable.minah);
+                            Bitmap icon = ico.getBitmap();
+                            list.add(mlistview(icon, name, phone));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    adapter = new ListViewAdapter(list, getContext());
+                    listView.setAdapter(adapter);
+                }else{
+                    String temp = null;
+                    JSONArray jsonArray4 = new JSONArray();
+                    try {
+                        temp = new connecting_js(null, "/contacts", "", "", "GET").execute("http:13.124.40.52:9200/api/members/member").get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        jsonArray4 = new JSONArray(temp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    for(int i=0; i<jsonArray4.length();i++) {
+                        JSONObject object = null;
+                        String memberID = null;
+                        String name = null;
+                        String phone = null;
+                        String img = null;
+                        try {
+                            object = (JSONObject) jsonArray4.get(i);
+                            name = object.getString("name");
+                            phone = object.getString("phone");
+                            img = object.getString("img");
 
+                            Bitmap myBitmap2 = null;
+                            try {
+                                myBitmap2 = new imageTask().execute(img).get();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+                            list.add(mlistview(myBitmap2, name, phone));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    adapter = new ListViewAdapter(list, getContext());
+                    listView.setAdapter(adapter);
+                }
             }
         });
 
