@@ -1,4 +1,5 @@
 package com.example.user.cs496_project2_sjh;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -7,11 +8,11 @@ import android.graphics.drawable.Drawable;
 
 public class listviewitem {
     //    private Drawable iconDrawable ;
-    private int iconDrawable;
+    private Bitmap iconDrawable;
     private String titleStr ;
     private String descStr ;
 
-    public void setIcon(int icon) {
+    public void setIcon(Bitmap icon) {
         iconDrawable = icon ;
     }
     public void setTitle(String title) {
@@ -21,7 +22,7 @@ public class listviewitem {
         descStr = desc ;
     }
 
-    public int getIcon() {
+    public Bitmap getIcon() {
         return this.iconDrawable ;
     }
     public String getTitle() {

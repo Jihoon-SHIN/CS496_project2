@@ -48,5 +48,4 @@ public class add_mycontact_db {
         c.close();
         return dataList;
     }
-
 }

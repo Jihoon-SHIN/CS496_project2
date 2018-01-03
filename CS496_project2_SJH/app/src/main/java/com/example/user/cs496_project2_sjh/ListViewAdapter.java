@@ -3,6 +3,7 @@ package com.example.user.cs496_project2_sjh;
  * Created by user on 2017-12-26.
  */
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,12 +73,12 @@ public class ListViewAdapter extends BaseAdapter {
             viewHolder = (ValueHolder)convertView.getTag();
         }
         listviewitem listViewItem = list.get(position);
-        viewHolder.icon.setImageResource(listViewItem.getIcon());
+        viewHolder.icon.setImageBitmap(listViewItem.getIcon());
         viewHolder.title.setText(listViewItem.getTitle());
         viewHolder.desc.setText(listViewItem.getDesc());
         return convertView;
     }
-    public void addItem(int icon, String title, String desc){
+    public void addItem(Bitmap icon, String title, String desc){
         listviewitem item = new listviewitem();
         item.setIcon(icon);
         item.setTitle(title);

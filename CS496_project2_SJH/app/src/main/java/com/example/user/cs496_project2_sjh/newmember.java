@@ -61,7 +61,7 @@ public class newmember extends AppCompatActivity {
             MD5 = null;
         }
         try {
-            id1 = new connecting_js(null, "/members", "", "", "GET").execute("http:13.124.40.52:9200/api/members/member").get();
+            id1 = new connecting_js(null, "/members", "/", login_text.getText().toString(), "GET").execute("http:13.124.40.52:9200/api/members/member").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -71,7 +71,7 @@ public class newmember extends AppCompatActivity {
         if (id1 == null) {
             if (password_text.getText().toString().equals(password_text2.getText().toString())) {
                 try {
-                    jsonObject.accumulate("member1", login_text.getText().toString());
+                    jsonObject.accumulate("memberID", login_text.getText().toString());
                     jsonObject.accumulate("password", MD5);
                     jsonObject.accumulate("name", name.getText().toString());
                     jsonObject.accumulate("phone", phone.getText().toString());

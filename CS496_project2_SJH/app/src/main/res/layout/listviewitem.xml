@@ -8,6 +8,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:padding = "4dp"
+        android:scaleType="fitCenter"
         android:layout_marginStart="16dp"
         android:id="@+id/imageview1"
         android:layout_weight="1"

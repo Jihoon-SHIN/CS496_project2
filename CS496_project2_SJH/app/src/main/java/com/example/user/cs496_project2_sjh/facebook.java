@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -73,7 +74,7 @@ public class facebook extends AppCompatActivity {
         imgAvatar = (ImageView)findViewById(R.id.avatar);
 
         LoginButton loginButton = (LoginButton)findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("public_profile","email","user_birthday","user_friends"));
+        loginButton.setReadPermissions(Arrays.asList("public_profile","user_birthday","user_friends"));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -83,18 +84,21 @@ public class facebook extends AppCompatActivity {
                 mDialog.show();
 
                 String accesstoken = loginResult.getAccessToken().getToken();
+
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         mDialog.dismiss();
-                        Log.d("response",response.toString());
-                        getData(object);
-
+                        Log.d("object", object.toString());
+                        Intent intent = new Intent(facebook.this, MainActivity.class);
+                        intent.putExtra("facebook", object.toString());
+                        intent.putExtra("key","login_facebook");
+                        startActivity(intent);
+                        finish();
                     }
                 });
-
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,email,birthday,taggable_friends");
+                parameters.putString("fields", "name, picture, id, taggable_friends");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -111,16 +115,6 @@ public class facebook extends AppCompatActivity {
 //            txtEmail.setText(AccessToken.getCurrentAccessToken().getUserId());
         }
 
-        /*testdb = (Button)findViewById(R.id.testbutton);
-        Button testdb1 = (Button)findViewById(R.id.newmember);
-
-        testdb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new connecting_js(dbdb).execute("http:13.124.40.52:9200/api/members/member");
-            }
-        });*/
-
     }
     public void Add_NewMember(View view){
         Intent intent = new Intent(this, newmember.class);
@@ -128,58 +122,55 @@ public class facebook extends AppCompatActivity {
     }
     public void login1(View view) throws JSONException {
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-//        JSONArray jsonArray;
-//        jsonArray = null;
-//
-//        login_text = (EditText)findViewById(R.id.login_id);
-//        password_text = (EditText)findViewById(R.id.login_password);
-//
-//
-//        String MD5 = "";
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("MD5");
-//            md.update(password_text.getText().toString().getBytes());
-//            byte byteData[] = md.digest();
-//            StringBuffer sb = new StringBuffer();
-//            for(int i = 0 ; i < byteData.length ; i++){
-//                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
-//            }
-//            MD5 = sb.toString();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//            MD5 = null;
-//        }
-//        String temp = null;
-//        try {
-//            temp = new connecting_js(jsonArray, "/members", "/", login_text.getText().toString(), "GET").execute("").get();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//        if(temp==null){
-//            Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
-//            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-//            toast.show();
-//        }else if(temp!=null){
-//            JSONObject jsonObject = new JSONObject(temp);
-///*            Log.i("jjj", jsonObject.toString());
-//            Log.i("md5",MD5);*/
-//            if(MD5.equals(jsonObject.getString("password"))){
-//                intent.putExtra("memberID", temp);
-//                startActivity(intent);
-//                Toast toast = Toast.makeText(this, "로그인 성공.", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-//                toast.show();
-//            }else{
-//                Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-//                toast.show();
-//            }
-//        }
-    }
+//        startActivity(intent);
+        JSONArray jsonArray;
+        jsonArray = null;
 
+        login_text = (EditText)findViewById(R.id.login_id);
+        password_text = (EditText)findViewById(R.id.login_password);
+
+        String MD5 = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password_text.getText().toString().getBytes());
+            byte byteData[] = md.digest();
+            StringBuffer sb = new StringBuffer();
+            for(int i = 0 ; i < byteData.length ; i++){
+                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+            }
+            MD5 = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            MD5 = null;
+        }
+        String temp = null;
+        try {
+            temp = new connecting_js(jsonArray, "/members", "/", login_text.getText().toString(), "GET").execute("").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if(temp==null){
+            Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+            toast.show();
+        }else if(temp!=null){
+            JSONObject jsonObject = new JSONObject(temp);
+            if(MD5.equals(jsonObject.getString("password"))){
+                intent.putExtra("memberID", jsonObject.getString("memberID"));
+                intent.putExtra("key", "login_own");
+                startActivity(intent);
+                Toast toast = Toast.makeText(this, "로그인 성공.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                toast.show();
+            }else{
+                Toast toast = Toast.makeText(this, "없는 아이디이거나 틀린 비밀번호입니다.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                toast.show();
+            }
+        }
+    }
     private void getData(JSONObject object){
         try{
             URL profile_picture = new URL("https://graph.facebook.com/"+object.getString("id")+"/picture?width=250&height=250");
@@ -187,7 +178,6 @@ public class facebook extends AppCompatActivity {
 
 //            txtBirthday.setText(object.getString("birthday"));
 //            txtFriends.setText(object.getJSONObject("friends").getJSONObject("summary").getString("total_count"));
-            Log.i("Friends",object.getString("/me/taggable_friends"));
 
         }catch(MalformedURLException e){
             e.printStackTrace();
@@ -195,8 +185,7 @@ public class facebook extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    private void printKeyHash(){
+/*    private void printKeyHash(){
         try{
             PackageInfo info = getPackageManager().getPackageInfo("com.example.user.cs496_project2_sjh", PackageManager.GET_SIGNATURES);
             for(Signature signature:info.signatures){
@@ -209,6 +198,6 @@ public class facebook extends AppCompatActivity {
         }catch (NoSuchAlgorithmException e){
             e.printStackTrace();
         }
-    }
+    }*/
 
 }

@@ -27,7 +27,7 @@ import java.net.URL;
  */
 
 public class connecting_js  extends AsyncTask<String, String,String>{
-    String url1 = "http:13.124.40.52:9200/api";
+    String url1 = "http:13.124.40.52:20180/api";
     String members;
     String input_string;
     String how_to;
@@ -67,7 +67,6 @@ public class connecting_js  extends AsyncTask<String, String,String>{
                 OutputStream outStream = con.getOutputStream();
                 //버퍼를 생성하고 넣음
 //                outStream.write(jsonObject.toString().getBytes());
-
                 outStream.write(jsonArray.toString().getBytes());
                 outStream.close();
                 con.getResponseCode();
